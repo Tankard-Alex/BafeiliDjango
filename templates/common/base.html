@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}
+        芭菲丽后台管理系统
+    {% endblock %}</title>
+    <link rel="shortcut icon" href="/static/inspinia/img/admin_icon.ico">
+    <link href="/static/inspinia/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/inspinia/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/inspinia/css/animate.css" rel="stylesheet">
+    <link href="/static/inspinia/css/style.css" rel="stylesheet">
+    {% block css %}
+
+    {% endblock %}
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <img alt="image" class="rounded-circle" src="/static/inspinia/img/pro2.jpg" style="width: 48px;height: 48px"/>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="block m-t-xs font-bold">李彦龙</span>
+                        <span class="text-muted text-xs block">管理员 <b class="caret"></b></span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a class="dropdown-item" href="login.html">登出</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    bafeili
+                </div>
+            </li>
+            <li>
+                <a href="/admin/"><i class="fa fa-th-large"></i> <span class="nav-label">首页 </span></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">商品 </span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href="/admin/goodslist/">商品列表</a></li>
+                    <li><a href="graph_morris.html">商品发布</a></li>
+                    <li><a href="graph_rickshaw.html">商品分类</a></li>
+                    <li><a href="graph_chartjs.html">商品属性</a></li>
+                    <li><a href="graph_chartist.html">商品推荐模块</a></li>
+                    <li><a href="c3.html">推荐商品列表</a></li>
+                    <li><a href="graph_peity.html">商品规格</a></li>
+                    <li><a href="graph_sparkline.html">相册管理</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">订单 </span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href="mailbox.html">订单列表</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">优惠券 </span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href="form_basic.html">优惠券</a></li>
+                    <li><a href="form_advanced.html">满减送</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">会员 </span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href="contacts.html">会员列表</a></li>
+                    <li><a href="profile.html">会员等级</a></li>
+                    <li><a href="profile_2.html">会员提现</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">营销模块 </span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href="search_results.html">首页营销模块管理</a></li>
+                    <li><a href="lockscreen.html">新品</a></li>
+                    <li><a href="invoice.html">折扣模块</a></li>
+                    <li><a href="login.html">人气推荐</a></li>
+                    <li><a href="login_two_columns.html">造型课堂</a></li>
+                    <li><a href="forgot_password.html">活动</a></li>
+                    <li><a href="register.html">护理知识</a></li>
+                    <li><a href="404.html">导航管理</a></li>
+                    <li><a href="500.html">专题列表</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-globe"></i> <span class="nav-label">设置 </span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href="toastr_notifications.html">基础设置</a></li>
+                    <li><a href="nestable_list.html">零售店</a></li>
+                    <li><a href="agile_board.html">数据库管理</a></li>
+                    <li><a href="timeline_2.html">管理员列表</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div id="page-wrapper" class="white-bg">
+    <div class="row border-bottom">
+        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <span class="m-r-sm text-muted welcome-message">欢迎来到bafeili管理后台 ~</span>
+                </li>
+                <li>
+                    <a href="login.html">
+                        <i class="fa fa-sign-out"></i> 注销
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+    {% block main %}
+
+    {% endblock %}
+
+
+    <div class="footer" >
+        <div>
+            <strong>Copyright</strong> bafelli &copy; 2021-2022
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+<!-- Mainly scripts -->
+<script src="/static/inspinia/js/jquery-3.1.1.min.js"></script>
+<script src="/static/inspinia/js/popper.min.js"></script>
+<script src="/static/inspinia/js/bootstrap.js"></script>
+<script src="/static/inspinia/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="/static/inspinia/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="/static/inspinia/js/inspinia.js"></script>
+<script src="/static/inspinia/js/plugins/pace/pace.min.js"></script>
+<script src="/static/inspinia/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script>
+    window.onload=function(){
+        var url = window.location.pathname;
+        console.log(url)
+        $("a[href='" + url + "']").parent().addClass('active');
+        $("a[href='" + url + "']").parent().parent().attr('aria-expanded',true);
+        $("a[href='" + url + "']").parent().parent().addClass('in');
+        $("a[href='" + url + "']").parent().parent().parent().addClass('active');
+        // 各模块的编辑页面和添加页面做单独处理
+        /*var url_pre =url.split("/");
+        url_pre.pop();
+        var url_next =url.split("/")[url.split("/").length-1];
+        if (url_next === "add" || url_next === "edit" ){
+            url =url_pre.join("/")+'/list'
+            $("a[href='" + url + "']").parent().addClass('layui-this');
+            $("a[href='" + url + "']").parent().parent().parent().addClass('layui-nav-itemed');
+        }
+        if (url_next === "cateAdd" || url_next === "cateEdit"){
+            url =url_pre.join("/")+'/cateList'
+            $("a[href='" + url + "']").parent().addClass('layui-this');
+            $("a[href='" + url + "']").parent().parent().parent().addClass('layui-nav-itemed');
+        }*/
+
+    }
+</script>
+{% block js %}
+
+{% endblock %}
+
+
+</body>
+
+</html>
