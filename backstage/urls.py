@@ -10,5 +10,15 @@ urlpatterns = [
     ,path('login/',views.login) # 用户登录页面
     ,path('loginHandle/',views.loginHandle) # 管理员登录处理
     ,path('',views.index) # 后台首页
-    ,path('goodslist/',views.goodslist) # 商品模块--商品列表页面
+    ,path('upload/',views.upload) # 图片上传
+    ,path('goods/goodslist/',views.goodslist) # 商品模块--商品列表页面
+    ,path('goods/addgoods/',views.addgoods) # 商品模块--发布商品页面
+    ,path('goods/goodscategory/',views.goodsCategory) # 商品模块--商品分类列表页面
+    ,path('goods/addgoodscategory/',views.addGoodsCategory) # 商品模块--添加商品分类页面
+    ,path('goods/goodsAttr/',views.goodsAttr) # 商品模块--商品属性
+    ,path('goods/addgoodsAttr/',views.addgoodsAttr) # 商品模块--添加商品属性
+    ,path('goods/goodsRecommend/',views.goodsRecommend) # 商品模块--商品推荐模块
+    ,path('goods/goodsRecommend/list/',views.goodsRecomList) # 商品模块--商品推荐列表
+    ,path('goods/goodsSpecList/',views.goodsSpecList) # 商品模块--商品规格
+
 ]

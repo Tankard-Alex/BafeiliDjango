@@ -9,8 +9,10 @@
         芭菲丽后台管理系统
     {% endblock %}</title>
     <link rel="shortcut icon" href="/static/inspinia/img/admin_icon.ico">
+    <link rel="stylesheet" href="/static/layui/css/layui.css"  media="all">
     <link href="/static/inspinia/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/inspinia/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/inspinia/css/plugins/toastr/toastr.min.css" rel="stylesheet">
     <link href="/static/inspinia/css/animate.css" rel="stylesheet">
     <link href="/static/inspinia/css/style.css" rel="stylesheet">
     {% block css %}
@@ -47,13 +49,13 @@
             <li>
                 <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">商品 </span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
-                    <li><a href="/admin/goodslist/">商品列表</a></li>
-                    <li><a href="graph_morris.html">商品发布</a></li>
-                    <li><a href="graph_rickshaw.html">商品分类</a></li>
-                    <li><a href="graph_chartjs.html">商品属性</a></li>
-                    <li><a href="graph_chartist.html">商品推荐模块</a></li>
-                    <li><a href="c3.html">推荐商品列表</a></li>
-                    <li><a href="graph_peity.html">商品规格</a></li>
+                    <li><a href="/admin/goods/goodslist/">商品列表</a></li>
+                    <li><a href="/admin/goods/addgoods/">商品发布</a></li>
+                    <li><a href="/admin/goods/goodscategory/">商品分类</a></li>
+                    <li><a href="/admin/goods/goodsAttr/">商品属性</a></li>
+                    <li><a href="/admin/goods/goodsRecommend/">商品推荐模块</a></li>
+                    <li><a href="/admin/goods/goodsRecommend/list/">推荐商品列表</a></li>
+                    <li><a href="/admin/goods/goodsSpecList/">商品规格</a></li>
                     <li><a href="graph_sparkline.html">相册管理</a></li>
                 </ul>
             </li>
@@ -130,7 +132,7 @@
     {% endblock %}
 
 
-    <div class="footer" >
+    <div class="footer" style="z-index: 999;margin-top: 70px">
         <div>
             <strong>Copyright</strong> bafelli &copy; 2021-2022
         </div>
@@ -141,8 +143,8 @@
 
 
 
-
-
+<!-- Layui scripts -->
+<script src="/static/layui/layui.js" charset="utf-8"></script>
 <!-- Mainly scripts -->
 <script src="/static/inspinia/js/jquery-3.1.1.min.js"></script>
 <script src="/static/inspinia/js/popper.min.js"></script>
@@ -154,8 +156,32 @@
 <script src="/static/inspinia/js/inspinia.js"></script>
 <script src="/static/inspinia/js/plugins/pace/pace.min.js"></script>
 <script src="/static/inspinia/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/static/inspinia/js/plugins/toastr/toastr.min.js"></script>
 <script>
-    window.onload=function(){
+    init();
+    function init() {
+        navStatusHandle();
+        //设置弹框的参数
+        toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "progressBar": false,
+          "preventDuplicates": true,
+          "positionClass": "toast-top-right",
+          "onclick": null,
+          "showDuration": "400",
+          "hideDuration": "1000",
+          "timeOut": "2000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+    }
+
+    //动态添加左侧导航栏的选中状态
+    function navStatusHandle() {
         var url = window.location.pathname;
         console.log(url)
         $("a[href='" + url + "']").parent().addClass('active');
@@ -163,21 +189,18 @@
         $("a[href='" + url + "']").parent().parent().addClass('in');
         $("a[href='" + url + "']").parent().parent().parent().addClass('active');
         // 各模块的编辑页面和添加页面做单独处理
-        /*var url_pre =url.split("/");
-        url_pre.pop();
-        var url_next =url.split("/")[url.split("/").length-1];
-        if (url_next === "add" || url_next === "edit" ){
-            url =url_pre.join("/")+'/list'
-            $("a[href='" + url + "']").parent().addClass('layui-this');
-            $("a[href='" + url + "']").parent().parent().parent().addClass('layui-nav-itemed');
-        }
-        if (url_next === "cateAdd" || url_next === "cateEdit"){
-            url =url_pre.join("/")+'/cateList'
-            $("a[href='" + url + "']").parent().addClass('layui-this');
-            $("a[href='" + url + "']").parent().parent().parent().addClass('layui-nav-itemed');
+        console.log(document.referrer);
+        /*var pre_url =/\/admin.+\//.exec(document.referrer); //document.referrer.search(/\/admin.+\//)
+        if (pre_url && /add/.test(pre_url)){
+            pre_url =pre_url[0];
+            console.log(pre_url)
+            $("a[href='" + pre_url + "']").parent().addClass('active');
+            $("a[href='" + pre_url + "']").parent().parent().attr('aria-expanded',true);
+            $("a[href='" + pre_url + "']").parent().parent().addClass('in');
+            $("a[href='" + pre_url + "']").parent().parent().parent().addClass('active');
         }*/
-
     }
+
 </script>
 {% block js %}
 

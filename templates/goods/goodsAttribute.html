@@ -1,0 +1,141 @@
+{% extends 'common/base.html' %}
+
+{% block title %}芭菲丽后台-商品{% endblock %}
+
+{% block css %}
+<style>
+.main{padding: 0;}
+.layui-btn+.layui-btn{margin-left: 0;}
+.data-table{
+    margin-top: -20px;
+}
+.data-table table th,.data-table table td{text-align: center}
+.data-table table tr th:nth-child(2),.data-table table tr td:nth-child(2){text-align: left;}
+.data-table table tbody tr td a{font-size: 16px}
+.data-table table tbody tr td a span{color: #1AB394;}
+
+
+</style>
+{% endblock %}
+
+
+{% block main %}
+    <div class="wrapper wrapper-content main">
+        {#面包屑#}
+        <div class="row" style="padding:10px 0 0 15px">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/admin/">迪奥皮具官方网站</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="/admin/goods/goodsAttr/"><strong>商品属性</strong></a>
+                </li>
+            </ol>
+        </div>
+        {# 添加商品属性按钮 #}
+        <div style="margin: 20px 0 10px 0">
+            <a href="/admin/goods/addgoodsAttr"><button type="button" class="btn btn-primary " >添加商品属性</button></a>
+        </div>
+        {# select框 #}
+        <div class="select">
+            <form action="">
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <select class="form-control m-b" name="account" style="font-size: 13px;">
+                            <option value="">新品</option>
+                            <option value="">造型课堂</option>
+                            <option value="">包袋</option>
+                            <option value="">鞋履</option>
+                            <option value="">服装</option>
+                            <option value="">配饰</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {# 表格部分 #}
+        <div class="data-table">
+            <table class="layui-table" lay-skin="line">
+                <colgroup>
+                    <col width="50">
+                    <col width="420">
+                    <col width="150">
+                    <col width="150">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>属性名称</th>
+                    <th>启用</th>
+                    <th>排序</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a><span>[-]</span></a></td>
+                    <td>按季度选购</td>
+                    <td class="layui-form"><input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭"></td>
+                    <td>1</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><span style="color: #ccc;font-size: 12px;font-weight: bold;">|——</span>预售新品</td>
+                    <td class="layui-form"><input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭"></td>
+                    <td>1</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><span style="color: #ccc;font-size: 12px;font-weight: bold;">|——</span>2020春季新品</td>
+                    <td class="layui-form"><input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭"></td>
+                    <td>1</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a><span>[+]</span></a></td>
+                    <td>热销推荐</td>
+                    <td class="layui-form"><input type="checkbox" name="zzz" lay-skin="switch" lay-text="开启|关闭"></td>
+                    <td>2</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+
+{% block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+var form;
+init();
+function init() {
+    layui.use('form', function(){
+        form = layui.form;
+    });
+}
+
+
+
+</script>
+{% endblock %}

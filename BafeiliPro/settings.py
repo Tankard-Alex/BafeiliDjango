@@ -38,14 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'backstage'
+    'backstage',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -130,3 +132,19 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+# 跨域增加忽略
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+
+
+# oss的存储配置
+# bucket名称
+OSSBucket = "bafeili"
+# 调用oss api的凭证参数
+OSSAccessKeyID = "LTAI4Fz3qAKF73AFX4CYGU1P"
+OSSAccessKeySecret = "CGy7wYr5D8gN3HuZfDYYp0j6mstWub"
+# 地域节点
+OSSEndpoint = "http://oss-cn-beijing.aliyuncs.com"
+# oss域名
+OSSDomain = "https://bafeili.oss-cn-beijing.aliyuncs.com"

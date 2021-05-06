@@ -1,0 +1,99 @@
+{% extends 'common/base.html' %}
+
+{% block title %}芭菲丽后台-商品{% endblock %}
+
+
+{% block css %}
+<style>
+    .main{padding: 0;}
+    .layui-btn+.layui-btn{margin-left: 0;}
+
+</style>
+{% endblock %}
+
+
+{% block main %}
+    <div class="wrapper wrapper-content main">
+        {#面包屑#}
+        <div class="row" style="padding:10px 0 0 15px">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/admin/">迪奥皮具官方网站</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="/admin/goods/goodsRecommend/list/"><strong>推荐商品列表</strong></a>
+                </li>
+            </ol>
+        </div>
+        <div>
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title" >
+                    <li class="layui-this">首页精选推荐</li>
+                    <li>SALE中的精选推荐</li>
+                    <li>人气推荐中的精选推荐</li>
+                    <li>全部商品中的精选推荐</li>
+                </ul>
+                <div class="layui-tab-content" style="padding: 0;">
+                    <div class="layui-tab-item layui-show">
+                        {# 表格部分 #}
+                        <div class="data-table">
+                            <table class="layui-table" lay-skin="line">
+                                <colgroup>
+                                    <col width="10">
+                                    <col width="80">
+                                    <col width="420">
+                                    <col width="150">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>商品编号</th>
+                                    <th>商品名称</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td class="layui-form">211</td>
+                                    <td>个性时尚大气单肩翅膀包</td>
+                                    <td>
+                                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="layui-form">212</td>
+                                    <td>个性时尚大气单肩翅膀包</td>
+                                    <td>
+                                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">3</div>
+                    <div class="layui-tab-item">4</div>
+                    <div class="layui-tab-item">5</div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script>
+        init();
+        function init() {
+            layui.use('element', function(){
+                var $ = layui.jquery
+                ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+            });
+        }
+
+    </script>
+{% endblock %}

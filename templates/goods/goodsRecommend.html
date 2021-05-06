@@ -1,0 +1,94 @@
+{% extends 'common/base.html' %}
+
+{% block title %}芭菲丽后台-商品{% endblock %}
+
+{% block css %}
+<style>
+.main{padding: 0;}
+.layui-btn+.layui-btn{margin-left: 0;}
+.data-table{margin-top: 20px;}
+.data-table table th,.data-table table td{text-align: center}
+.data-table table tr th:nth-child(2),.data-table table tr td:nth-child(2){text-align: left;}
+.data-table table tbody tr td a{font-size: 16px}
+.data-table table tbody tr td a span{color: #1AB394;}
+.data-table tr input{
+    width: 200px;
+    font-size: 14px;
+}
+
+
+</style>
+{% endblock %}
+
+
+{% block main %}
+    <div class="wrapper wrapper-content main">
+        {#面包屑#}
+        <div class="row" style="padding:10px 0 0 15px">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/admin/">迪奥皮具官方网站</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="/admin/goods/goodsRecommend/"><strong>商品推荐模块</strong></a>
+                </li>
+            </ol>
+        </div>
+        {# 表格部分 #}
+        <div class="data-table">
+            <table class="layui-table" lay-skin="line" lay-filter="dataTable">
+                <colgroup>
+                    <col width="50">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th lay-data="{edit: 'text'}">标签名称</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><input type="text" class="form-control" value="首页精选推荐"></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><input type="text" class="form-control" value="SALE中的精选推荐"></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><input type="text" class="form-control" value="人气推荐中的精选推荐"></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><input type="text" class="form-control" value="全部商品中的人气推荐"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+
+{% block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+var form;
+var table;
+init();
+function init() {
+    layui.use(['form','table'], function(){
+        form = layui.form;
+        table = layui.table;
+    });
+}
+
+
+
+</script>
+{% endblock %}

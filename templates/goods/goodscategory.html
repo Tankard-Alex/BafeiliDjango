@@ -1,0 +1,137 @@
+{% extends 'common/base.html' %}
+
+{% block title %}芭菲丽后台-商品{% endblock %}
+
+
+{% block css %}
+<style>
+    .main{padding: 0;}
+    .layui-btn+.layui-btn{margin-left: 0;}
+    .data-table table th,.data-table table td{text-align: center}
+    .data-table table tr th:nth-child(2),.data-table table tr td:nth-child(2){text-align: left;}
+    .data-table table tbody tr td a{font-size: 16px}
+    .data-table table tbody tr td a span{color: #1AB394;}
+
+
+</style>
+{% endblock %}
+
+
+{% block main %}
+    <div class="wrapper wrapper-content main">
+        {#面包屑#}
+        <div class="row" style="padding:10px 0 0 15px">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/admin/">迪奥皮具官方网站</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="/admin/goods/goodscategory/"><strong>商品分类</strong></a>
+                </li>
+            </ol>
+        </div>
+        {# 添加商品分类按钮 #}
+        <div style="margin: 20px 0 10px 0">
+            <a href="/admin/goods/addgoodscategory"><button type="button" class="btn btn-primary " >添加商品分类</button></a>
+        </div>
+        {# 表格部分 #}
+        <div class="data-table">
+            <table class="layui-table" lay-skin="line">
+                <colgroup>
+                    <col width="50">
+                    <col width="420">
+                    <col width="150">
+                    <col width="150">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>分类名称</th>
+                    <th>是否显示</th>
+                    <th>排序</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><a><span>[-]</span></a></td>
+                    <td>包袋</td>
+                    <td>是</td>
+                    <td>1</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><span style="color: #ccc;font-size: 12px;font-weight: bold;">|——</span>时髦单品</td>
+                    <td>是</td>
+                    <td>1</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><span style="color: #ccc;font-size: 12px;font-weight: bold;">|——</span>轻奢主义</td>
+                    <td>是</td>
+                    <td>1</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><span style="color: #ccc;font-size: 12px;font-weight: bold;">|——</span>顽皮猫系列</td>
+                    <td>是</td>
+                    <td>1</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a><span>[+]</span></a></td>
+                    <td>鞋履</td>
+                    <td>是</td>
+                    <td>2</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a><span>[+]</span></a></td>
+                    <td>服装</td>
+                    <td>是</td>
+                    <td>3</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a><span>[+]</span></a></td>
+                    <td>配饰</td>
+                    <td>是</td>
+                    <td>4</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-danger layui-btn-xs">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}

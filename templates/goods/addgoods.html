@@ -1,0 +1,435 @@
+{% extends 'common/base.html' %}
+
+{% block title %}芭菲丽后台-商品{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/ZdCascader/ZdCascader.css" type="text/css">
+<style>
+.main{padding: 0;}
+.layui-tab-item{padding: 0;}
+.layui-tab-content{margin-top: -10px; padding: 10px;}
+.layui-tab{
+    box-shadow: none;
+}
+.layui-elem-quote-my{
+    height:25px;
+    line-height: 25px;
+    border-left: 3px solid #1AB394;
+    padding-left: 6px;
+    font-weight: bold;
+
+}
+form .layui-form-label{
+    width: 145px;
+    padding-right: 10px;
+}
+.layui-form .layui-form-item{
+    margin-bottom: 6px;
+
+}
+.attr-item{
+    margin-bottom: 7px;
+}
+.img-item .input-group input {
+    background-color: #fff;
+    font-size: 12px;
+}
+.layui-tab-content .layui-tab-item .btn-group button{
+    margin-left: 5px;
+    border-radius: 3px;
+}
+.layui-tab-content .layui-tab-item  .tips{
+    margin: 10px 0;
+    color: red;
+}
+</style>
+{% endblock %}
+
+
+{% block main %}
+    <div class="wrapper wrapper-content main">
+        {#面包屑#}
+        <div class="row" style="padding:10px 0 0 15px">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/admin/">迪奥皮具官方网站</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="/admin/goods/addgoods/"><strong>商品发布</strong></a>
+                </li>
+            </ol>
+        </div>
+        <div class="">
+            <div class="layui-tab layui-tab-card" style="margin-bottom: 60px;">
+              <ul class="layui-tab-title">
+                <li class="layui-this">基础设置</li>
+                <li>颜色尺码</li>
+                <li>商品主图</li>
+                <li>商品详情</li>
+              </ul>
+              <div class="layui-tab-content" >
+                {# 基础设置部分 #}
+                <div class="layui-tab-item layui-show">
+                    <p class="layui-elem-quote-my">基础信息</p>
+                    <form class="layui-form" action="" lay-filter="example">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">商品名称：</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="title" style="width: 50%" lay-verify="title" autocomplete="off" placeholder="请输入商品名称，不能超过60个字符" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">商品条形码：</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="username"  style="width: 50%"  lay-verify="title" autocomplete="off" placeholder="请输入商品条形码" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">商品分类：</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="cate" class="cate"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">商品属性：</label>
+                            <div class="layui-input-block" style="margin-left:145px;">
+                                <div class="attr-container">
+{#                                    <div class="attr-item">#}
+{#                                        <input type="text" class="attr" />#}
+{#                                        <a class="del-icon">&nbsp;&nbsp;<i class="fa fa-trash-o" aria-hidden="true"></i></a>#}
+{#                                        <span>&nbsp;&nbsp;是否启用：</span>#}
+{#                                        <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" title="开关"><br>#}
+{#                                    </div>#}
+{#                                    <div class="attr-item">#}
+{#                                        <input type="text" class="attr" />#}
+{#                                        <a class="del-icon">&nbsp;&nbsp;<i class="fa fa-trash-o" aria-hidden="true"></i></a>#}
+{#                                        <span>&nbsp;&nbsp;是否启用：</span>#}
+{#                                        <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" title="开关">#}
+{#                                    </div>#}
+                                </div>
+                                <button class="btn btn-default  dim add attrBtn" type="button"><i class="fa fa-plus-square"></i></button>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">添加新品属性：</label>
+                            <div class="layui-input-block" style="margin-left:145px;">
+                                <div class="newsAttr-container">
+
+                                </div>
+                                <button class="btn btn-default  dim add newsAttrBtn" type="button"><i class="fa fa-plus-square"></i></button>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">添加造型课堂属性：</label>
+                            <div class="layui-input-block" style="margin-left:145px;">
+                                <div class="modelingAttr-container">
+
+                                </div>
+                                <button class="btn btn-default  dim add modelingBtn" type="button"><i class="fa fa-plus-square"></i></button>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">库存预警：</label>
+                            <div class="input-group m-b" style="width: 150px;">
+                                <input type="number" min="0" class="form-control" />
+                                <div class="input-group-append">
+                                    <span class="input-group-addon">件</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item img-item">
+                            <label class="layui-form-label" >商品信息图片：</label>
+                            <div class="input-group" style="width:350px;">
+                                <input type="text" name="info-img" class="form-control" readonly>
+                                <span class="input-group-append"><button type="button" class="btn uploadBtn infoBtn btn-primary">上传</button></span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item img-item">
+                            <label class="layui-form-label" >容量参考图片：</label>
+                            <div class="input-group" style="width:350px;">
+                                <input type="text" name="capacity-img" class="form-control" readonly>
+                                <span class="input-group-append"><button type="button" class="btn uploadBtn capacityBtn btn-primary">上传</button></span>
+                            </div>
+                        </div>
+                        <p class="layui-elem-quote-my">购买信息</p>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">市场价格：</label>
+                            <div class="input-group m-b" style="width: 150px;">
+                                <input type="number" min="0" class="form-control" />
+                                <div class="input-group-append">
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">销售价格：</label>
+                            <div class="input-group m-b" style="width: 150px;">
+                                <input type="number" min="0" class="form-control" />
+                                <div class="input-group-append">
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                {# 颜色尺码部分 #}
+                <div class="layui-tab-item">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs">编辑规格</button>
+                        <button type="button" class="btn btn-default btn-xs">清空规格</button>
+                    </div>
+                    <p class="tips">选择商品图片的时候：支持jpg、gif、png格式，图片宽度建议选择宽度:1080 ,高度：580</p>
+                </div>
+                {# 商品主图部分 #}
+                <div class="layui-tab-item">
+                    <p class="layui-elem-quote-my">商品图片</p>
+                </div>
+                {# 商品详情部分 #}
+                <div class="layui-tab-item">
+                    <textarea id="goodsInfoEdit" style="display: none;"></textarea>
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+
+{% block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script src="/static/ZdCascader/ZdCascader.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+
+    //商品分类级联下拉菜单按钮
+    var _data = [{
+        value: 'shanghai',
+        label: '上海',
+        children: [{
+            value: 'shanghaishi',
+            label: '上海市',
+            children: [{
+                value: 'baoshan1',
+                label: '宝山区saa发送飞洒发送'
+            }, {
+                value: 'fengxian1',
+                label: '奉贤区'
+            }, {
+                value: 'putuo1',
+                label: '普陀区'
+            }, {
+                value: 'hongkou1',
+                label: '虹口区'
+            }]
+        }]
+    }, {
+        value: 'hunan',
+        label: '湖南省',
+        children: [{
+            value: 'shaoyang',
+            label: '邵阳市',
+            children: [{
+                value: 'baoshan2',
+                label: '宝山区'
+            }, {
+                value: 'fengxian2',
+                label: '奉贤区'
+            }, {
+                value: 'putuo2',
+                label: '普陀区'
+            }, {
+                value: 'hongkou2',
+                label: '虹口区'
+            }]
+        }, {
+            value: 'hengyang',
+            label: '衡阳市',
+            children: [{
+                value: 'baoshan3',
+                label: '宝山区'
+            }, {
+                value: 'putuo3',
+                label: '普陀区'
+            }, {
+                value: 'hongkou3',
+                label: '虹口区'
+            }]
+        }]
+    }, {
+        value: 'sichuan',
+        label: '四川省',
+        children: [{
+            value: 'leshanshi',
+            label: '乐山市',
+            children: [{
+                value: 'baoshan4',
+                label: '宝山区'
+            }, {
+                value: 'fengxian4',
+                label: '奉贤区'
+            }, {
+                value: 'putuo4',
+                label: '普陀区'
+            }, {
+                value: 'hongkou4',
+                label: '虹口区'
+            }]
+        }]
+    }, {
+        value: 'beijing',
+        label: '北京'
+    }];
+    $('.cate').zdCascader({
+        data:_data
+    });
+    $('.attr').zdCascader({
+        data:_data
+    });
+
+
+    var form;
+    var upload;
+    var attrData; // 商品属性级联菜单数据
+    var newsAttrData;  // 新品属性级联菜单数据
+    var modelingAttrData; //造型课堂属性级联菜单数据
+    //初始化函数
+    init();
+    function init() {
+        //加载layui组件模块
+        layui.use(['element','form','upload','layedit'], function(){
+            var $ = layui.jquery
+            ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+            //开关按钮
+            form = layui.form;
+            form.on('switch(switchTest)', function(data){
+                //console.log(data.elem); //得到checkbox原始DOM对象
+                //console.log(data.elem.checked); //开关是否开启，true或者false
+                //console.log(data.value); //开关value值，也可以通过data.elem.value得到
+                //console.log(data.othis); //得到美化后的DOM对象
+            });
+            //upload实例
+            upload = layui.upload;
+            $(".uploadBtn").each(function () {
+                var that =this;
+                var uploadInfo = upload.render({
+                    elem: that //绑定元素
+                    ,url: '/admin/upload/' //上传接口
+                    ,accept:'images'
+                    ,done: function(res){
+                      //上传完毕回调
+                        console.log(res);
+                        var src =res.data.src;
+                        $(that).parent().parent().find("input").eq(0).val(src)
+                    }
+                });
+            });
+            //编辑器实例
+            var layedit = layui.layedit;
+            layedit.build('goodsInfoEdit',{
+                height: 400 //设置编辑器高度
+                ,uploadImage: {
+                    url: '/admin/upload/' //接口url
+                }
+            });
+        });
+        //设置弹框的参数
+        toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "progressBar": false,
+          "preventDuplicates": true,
+          "positionClass": "toast-top-right",
+          "onclick": null,
+          "showDuration": "400",
+          "hideDuration": "1000",
+          "timeOut": "2000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+        //得到各属性数据用于级联菜单填充
+        getAttrData();
+
+
+    }
+
+    //得到各属性数据
+    function getAttrData() {
+
+    }
+
+    //点击添加商品属性按钮
+    $(".attrBtn").click(function () {
+        //判断是否已经选择了商品分类
+        if ($("#cate").val().length === 0){
+            console.log("请先选择商品分类")
+            toastr.error('请先选择商品分类');
+            return
+        }
+        $('.attr-container').append(`
+            <div class="attr-item">
+                <input type="text" class="attr" />
+                <a class="del-icon">&nbsp;&nbsp;<i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                <span>&nbsp;&nbsp;是否启用：</span>
+                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" title="开关"><br>
+            </div>
+        `);
+        form.render();
+        $('.attr').zdCascader({
+            data:_data
+        });
+        //点击删除按钮
+        $(".del-icon").click(function () {
+            $(this).closest(".attr-item").remove();
+        })
+    });
+
+    //点击添加新品属性按钮
+    $('.newsAttrBtn').click(function () {
+        $('.newsAttr-container').append(`
+            <div class="attr-item">
+                <input type="text" class="newsAttr" />
+                <a class="del-icon">&nbsp;&nbsp;<i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                <span>&nbsp;&nbsp;是否启用：</span>
+                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" title="开关"><br>
+            </div>
+        `);
+        form.render();
+        $('.newsAttr').zdCascader({
+            data:_data
+        });
+        //点击删除按钮
+        $(".del-icon").click(function () {
+            $(this).closest(".attr-item").remove();
+        })
+    });
+
+    //点击添加造型课堂属性按钮
+    $(".modelingBtn").click(function () {
+        $('.modelingAttr-container').append(`
+            <div class="attr-item">
+                <input type="text" class="modelingAttr" />
+                <a class="del-icon">&nbsp;&nbsp;<i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                <span>&nbsp;&nbsp;是否启用：</span>
+                <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" title="开关"><br>
+            </div>
+        `);
+        form.render();
+        $('.modelingAttr').zdCascader({
+            data:_data
+        });
+        //点击删除按钮
+        $(".del-icon").click(function () {
+            $(this).closest(".attr-item").remove();
+        })
+    })
+
+
+</script>
+{% endblock %}

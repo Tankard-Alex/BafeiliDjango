@@ -1,0 +1,72 @@
+{% extends 'common/base.html' %}
+
+{% block title %}芭菲丽后台-商品{% endblock %}
+
+
+{% block css %}
+<style>
+    .main{padding: 0;}
+    .layui-btn+.layui-btn{margin-left: 0;}
+    .data-table table td{font-size: 12px;}
+
+</style>
+{% endblock %}
+
+
+{% block main %}
+    <div class="wrapper wrapper-content main">
+        {#面包屑#}
+        <div class="row" style="padding:10px 0 0 15px">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/admin/">迪奥皮具官方网站</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="/admin/goods/goodsspeclist/"><strong>商品规格</strong></a>
+                </li>
+            </ol>
+        </div>
+        {# 表格部分 #}
+        <div class="data-table">
+            <table class="layui-table" lay-skin="line" lay-filter="dataTable">
+                <colgroup>
+                    <col width="50">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>规格名称</th>
+                    <th>规格属性</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>尺码</td>
+                    <td>S,M,L,XL,XXL,XXXL,33,34,35,36,37,38,39,40,41,42,43,44,45,46,F,21*11*15cm,23*9.5*15.5cm,17.3*10*16.5cm,20*7*12cm,20.5*8*12.5,11*4*10.5cm,21*10*14.5cm,18*7*13cm,27*7.7*14cm,145/52A,150/56A,155/60A,F/36,M/38,M160/66A</td>
+                </tr>
+                <tr>
+                    <td>颜色</td>
+                    <td>红色,黄色,宗色,白色,黑色,灰棕色,米色,蓝绿色,乳白色,粉色,蓝色,绿色,杏色,银色,雾霾蓝,紫色,灰粉色,墨染,蓝灰,灰色,紫红色,酒红色,粉色大号,粉色小号,湖绿色,橄榄绿,杏黄色,棕色,樱红色+杏色,透明,镭射幻彩,铁锈红,焦糖色,卡其色,黑色+纱网,银白色+纱网,浅灰色,焕彩粉（小号）,焕彩绿（小号）,亮黑色（小号）,焕彩粉（大号）,焕彩绿（大号）,焕彩粉,焕彩绿,亮黑色,香草黄,果冻绿,果冻粉,芝士黄,莫迪蓝,果绿色,白色撞红色,红白撞色,果绿色,米白色,浅绿色,红色（大号）,红色（小号）,黑色（大号）,黑色（小号）,米白色（大号）,米白色（小号）,蓝色（大号）,蓝色（小号）,棕色（大号）,棕色（小号）,月光蓝,复古蓝,橙色,裸色,天空蓝,概念灰,蜥蜴纹,蛇纹,铁锈棕,大西洋蓝,斑马纹,奶牛纹,亮黑色,棕色,撞色,血石红,银色,葡萄紫,兔爪棕,柚木色,姜饼色,钻蓝</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+    init();
+    function init() {
+        layui.use('element', function(){
+            var $ = layui.jquery
+            ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+        });
+    }
+
+</script>
+{% endblock %}

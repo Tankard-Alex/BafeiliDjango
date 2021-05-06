@@ -2,33 +2,122 @@
 
 {% block title %}芭菲丽后台-商品{% endblock %}
 
-
-
 {% block css %}
+<style>
+.main{padding: 0;}
+.layui-tab-item{padding: 0;}
+.layui-tab-content{margin-top: -10px; padding: 0;
+    padding-top: 5px;}
+.filter-bar,.filter-bar input{
+    height: 30px;
+    line-height: 30px;
+}
+.filter-bar input{
+    font-size: 12px;
+    margin-right: 10px;
+}
+.filter-bar{justify-content: space-between;}
+.data-table{
+    margin-top: 5px;
+}
 
+</style>
 {% endblock %}
 
 
 {% block main %}
-    <div class="wrapper wrapper-content">
+    <div class="wrapper wrapper-content main">
         {#面包屑#}
-        <div class="row">
+        <div class="row" style="padding:10px 0 0 15px">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="/admin/">迪奥皮具官方网站</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <a href="/admin/goodslist/"><strong>商品</strong></a>
+                    <a href="/admin/goods/goodslist/"><strong>商品列表</strong></a>
                 </li>
             </ol>
         </div>
+        <div class="">
+            {#tab栏#}
+            <div class="layui-tab layui-tab-brief " lay-filter="docDemoTabBrief">
+              <ul class="layui-tab-title">
+                <li class="layui-this">出售中</li>
+                <li>已下架</li>
+                <li>库存为零</li>
+              </ul>
+              <div class="layui-tab-content" style="height: 100px;">
+                {#tab栏下的内容#}
+                <div class="layui-tab-item layui-show">
+                    <div>
+                        {# 左侧按钮组 #}
+                        <div class="button-group pull-left">
+                            <button type="button" class="btn btn-xs btn-primary">发布商品</button>
+                            <button type="button" class="btn btn-xs btn-default">批量删除</button>
+                            <button type="button" class="btn btn-xs btn-default">上架</button>
+                            <button type="button" class="btn btn-xs btn-default">下架</button>
+                        </div>
+                        {# 右侧过滤搜索栏 #}
+                        <div class="filter-bar pull-right">
+                            <form action="" class="form-inline">
+                                <label for="">商品分类：</label>
+                                <input type="text" class="form-control" placeholder="请选择商品分类">
+                                <label for="">商品名称：</label>
+                                <input type="text" class="form-control" placeholder="要搜索的商品名称">
+                                <button type="button" class="btn btn-xs btn-primary">搜索</button>
+                            </form>
+                        </div>
+                        <div class="layui-clear"></div>
+                    </div>
+                    {# 数据表格 #}
+                    <div class="data-table">
+                        <table id="demo" class="layui-hide" lay-filter="test"></table>
+                    </div>
 
+                </div>
+                <div class="layui-tab-item">内容2</div>
+                <div class="layui-tab-item">内容3</div>
+              </div>
+            </div>
+        </div>
 
 
     </div>
+
 {% endblock %}
 
 
 {% block js %}
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+layui.use('element', function(){
+  var $ = layui.jquery
+  ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+});
+layui.use(['table','form'], function(){
+  var table = layui.table;
+  var form = layui.form;
+  //第一个实例
+  table.render({
+    elem: '#demo'
+    ,height: 480
+    ,url: '/static/demo1.json' //数据接口
+    ,cols: [[ //表头
+        {type:'checkbox'}
+      ,{field: 'id', title: 'ID',  sort: true}
+      ,{field: 'username', title: '用户名'}
+      ,{field: 'sex', title: '性别', sort: true}
+      ,{field: 'city', title: '城市'}
+      ,{field: 'sign', title: '签名'}
+      ,{field: 'experience', title: '积分', sort: true}
+      ,{field: 'score', title: '评分', sort: true}
+      ,{field: 'classify', title: '职业'}
+      ,{field: 'wealth', title: '财富', sort: true}
+    ]]
+    ,page: true //开启分页
+  });
 
+});
+</script>
 {% endblock %}
