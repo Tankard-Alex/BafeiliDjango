@@ -20,7 +20,10 @@
 .data-table{
     margin-top: 5px;
 }
-
+.layui-table-cell{height:auto;line-height:28px;}
+.layui-btn+.layui-btn{
+    margin: 0;
+}
 </style>
 {% endblock %}
 
@@ -39,25 +42,25 @@
             </ol>
         </div>
         <div class="">
-            {#tab栏#}
+            {# tab栏#}
             <div class="layui-tab layui-tab-brief " lay-filter="docDemoTabBrief">
               <ul class="layui-tab-title">
                 <li class="layui-this">出售中</li>
                 <li>已下架</li>
                 <li>库存为零</li>
               </ul>
-              <div class="layui-tab-content" style="height: 100px;">
-                {#tab栏下的内容#}
+              <div> {# tab-content #}
+                {#tab栏下的内容 #}
                 <div class="layui-tab-item layui-show">
                     <div>
-                        {# 左侧按钮组 #}
+                         {# 左侧按钮组 #}
                         <div class="button-group pull-left">
                             <button type="button" class="btn btn-xs btn-primary">发布商品</button>
                             <button type="button" class="btn btn-xs btn-default">批量删除</button>
                             <button type="button" class="btn btn-xs btn-default">上架</button>
                             <button type="button" class="btn btn-xs btn-default">下架</button>
                         </div>
-                        {# 右侧过滤搜索栏 #}
+                         {# 右侧过滤搜索栏 #}
                         <div class="filter-bar pull-right">
                             <form action="" class="form-inline">
                                 <label for="">商品分类：</label>
@@ -69,11 +72,11 @@
                         </div>
                         <div class="layui-clear"></div>
                     </div>
-                    {# 数据表格 #}
+                     {# 数据表格 #}
                     <div class="data-table">
-                        <table id="demo" class="layui-hide" lay-filter="test"></table>
+                        <table id="demo" class="layui-hide" lay-skin="line" lay-filter="test"></table>
+                        <div class="layui-clear"></div>
                     </div>
-
                 </div>
                 <div class="layui-tab-item">内容2</div>
                 <div class="layui-tab-item">内容3</div>
@@ -89,35 +92,46 @@
 
 {% block js %}
 <script src="/static/layui/layui.js" charset="utf-8"></script>
-<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script type="text/html" id="imgTpl">
+    <img src="{% verbatim %}{{ d.picture }}{% endverbatim %}" alt="" width="50px">
+</script>
+<script type="text/html" id="btnBar">
+{#    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>#}
+{#    <a class="layui-btn layui-btn-xs" lay-event="more">更多</a>#}
+    <button class="layui-btn layui-btn-xs" style="margin: 0">编辑</button>
+    <button class="layui-btn layui-btn-xs btn-danger">删除</button>
+    <button class="layui-btn layui-btn-xs btn-warning">下架</button>
+</script>
+    
 <script>
-layui.use('element', function(){
-  var $ = layui.jquery
-  ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
-});
-layui.use(['table','form'], function(){
-  var table = layui.table;
-  var form = layui.form;
-  //第一个实例
-  table.render({
-    elem: '#demo'
-    ,height: 480
-    ,url: '/static/demo1.json' //数据接口
-    ,cols: [[ //表头
-        {type:'checkbox'}
-      ,{field: 'id', title: 'ID',  sort: true}
-      ,{field: 'username', title: '用户名'}
-      ,{field: 'sex', title: '性别', sort: true}
-      ,{field: 'city', title: '城市'}
-      ,{field: 'sign', title: '签名'}
-      ,{field: 'experience', title: '积分', sort: true}
-      ,{field: 'score', title: '评分', sort: true}
-      ,{field: 'classify', title: '职业'}
-      ,{field: 'wealth', title: '财富', sort: true}
-    ]]
-    ,page: true //开启分页
-  });
+    init();
+    function init(){
+        layui.use(['table','form','element'], function(){
+            var $ = layui.jquery
+                ,element = layui.element//Tab的切换功能，切换事件监听等，需要依赖element模块
+                ,table = layui.table
+                ,form = layui.form;
+            //第一个实例
+            table.render({
+                elem: '#demo'
+                ,url: '/admin/goods/goodslist/' //数据接口
+                ,method:'post'
+                ,cols: [[ //表头
+                    {type:'checkbox'}
+                    ,{field: 'goods_id', title: 'ID',  sort: true,width:80}
+                    ,{field: 'goods_name', title: '商品名称'}
+                    ,{field: 'picture', title: '商品图片', sort: true,templet:"#imgTpl",align:"center"}
+                    ,{field: 'sale_price', title: '价格',width:120}
+                    ,{field: 'stock', title: '库存', sort: true,width:120}
+                    ,{field: 'sell_count', title: '销量', sort: true,width:100}
+                    ,{field: 'create_time', title: '创建时间'}
+                    ,{fixed: 'right', width: 150, align:'center', toolbar: '#btnBar',title:"操作"}
+                ]]
+                ,page: true //开启分页
+            });
 
-});
+        });
+    }
+
 </script>
 {% endblock %}

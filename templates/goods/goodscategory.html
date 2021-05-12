@@ -54,78 +54,25 @@
                 </tr>
                 </thead>
                 <tbody>
+                {% for cate in cate_list %}
                 <tr>
-                    <td><a><span>[-]</span></a></td>
-                    <td>包袋</td>
+                    <td><a><span ifFold="0" onclick="foldTr({{ forloop.counter0 }},this)">[+]</span></a></td>
+                    <td>{{ cate.category_name }}</td>
+                    {% if cate.is_visible == 1 %}
                     <td>是</td>
-                    <td>1</td>
+                    {% else %}
+                    <td>否</td>
+                    {% endif %}
+                    <td>{{ cate.sort }}</td>
                     <td>
                         <button type="button" class="layui-btn layui-btn-xs">修改</button>
                         <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
                     </td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td><span style="color: #ccc;font-size: 12px;font-weight: bold;">|——</span>时髦单品</td>
-                    <td>是</td>
-                    <td>1</td>
-                    <td>
-                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
-                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><span style="color: #ccc;font-size: 12px;font-weight: bold;">|——</span>轻奢主义</td>
-                    <td>是</td>
-                    <td>1</td>
-                    <td>
-                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
-                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><span style="color: #ccc;font-size: 12px;font-weight: bold;">|——</span>顽皮猫系列</td>
-                    <td>是</td>
-                    <td>1</td>
-                    <td>
-                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
-                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a><span>[+]</span></a></td>
-                    <td>鞋履</td>
-                    <td>是</td>
-                    <td>2</td>
-                    <td>
-                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
-                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a><span>[+]</span></a></td>
-                    <td>服装</td>
-                    <td>是</td>
-                    <td>3</td>
-                    <td>
-                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
-                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a><span>[+]</span></a></td>
-                    <td>配饰</td>
-                    <td>是</td>
-                    <td>4</td>
-                    <td>
-                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
-                        <button type="button"class="layui-btn layui-btn-danger layui-btn-xs">删除</button>
-                    </td>
-                </tr>
+                {% endfor %}
                 </tbody>
             </table>
+            <p id="data" style="display: none;">{{ cate_list_json }}</p>
         </div>
 
     </div>
@@ -133,5 +80,54 @@
 
 
 {% block js %}
+<script>
+    var cate_list;
+    init();
+    function init() {
+        cate_list =JSON.parse($("#data").text());
+    }
+    
+    //折叠表格
+    function foldTr(index,that) {
+        var ifFold =$(that).attr("ifFold");
+        //此时为折叠状态需展开
+        if (ifFold === "0"){
+            $(that).text("[-]");
+            var foldData =cate_list[index]["sec_cate"];
+            creatCateItem(foldData,that,index);
+            $(that).attr("ifFold","1")
+        }
+        //此时为展开状态需折叠
+        if (ifFold === "1"){
+            $(that).text("[+]");
+            var delClassName =".sec-"+index
+            $(delClassName).remove();
+            $(that).attr("ifFold","0")
+        }
+    }
 
+    //动态创建分类数据
+    function creatCateItem(list,that,index){
+        var temp_total ="";
+        for (var i = 0; i < list.length; i++) {
+            var item =list[i];
+            var isvisible =item["is_visible"] === 1?"是":"否";
+            var item_temp =`
+                <tr class="sec-${index}">
+                    <td></td>
+                    <td><span style="color: #ccc;font-size: 12px;font-weight: bold;">|——</span>${item.category_name}</td>
+                    <td>${isvisible}</td>
+                    <td>${item.sort}</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-xs">修改</button>
+                        <button type="button"class="layui-btn layui-btn-xs layui-btn-danger">删除</button>
+                    </td>
+                </tr>
+            `
+            temp_total+=item_temp;
+        }
+        $(that).parent().parent().parent().after(temp_total);
+    }
+    
+</script>
 {% endblock %}

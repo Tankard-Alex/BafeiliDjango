@@ -1,0 +1,410 @@
+{% extends 'common/base.html' %}
+
+{% block title %}芭菲丽后台-商品{% endblock %}
+
+
+{% block css %}
+<style>
+    .main{padding: 0;margin-bottom: 50px;}
+    .layui-btn+.layui-btn{margin-left: 0;}
+    .filter-bar,.filter-bar input{
+        height: 30px;
+        line-height: 30px;
+    }
+    .filter-bar input{
+        font-size: 12px;
+        margin-right: 10px;
+    }
+    .filter-bar{justify-content: space-between;}
+    .albumlist .album-item:hover{background-color: #f6f6f6;}
+    .albumlist .album-item{
+        border: 1px solid #E5E5E5;
+        padding: 25px 10px 20px 10px;
+        height: 300px;
+        cursor: pointer;
+    }
+    .albumlist .album-item .cover{
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid #FAFAFA;
+        overflow: hidden;
+        height: 180px;
+    }
+    .albumlist .album-item .cover img{width: 80%;}
+    .albumlist .album-item .album_name{
+        margin-top: 7px;
+        font-size: 16px;
+        color: #1AB394;
+    }
+    .albumlist .album-item .album_num{
+        margin-bottom: -5px;
+        margin-top: -5px;
+        font-size: 12px;
+    }
+    .albumlist .album-item .btn-group{display: none;}
+
+</style>
+{% endblock %}
+
+
+{% block main %}
+    <div class="wrapper wrapper-content main">
+        {#面包屑#}
+        <div class="row" style="padding:10px 0 0 15px">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/admin/">迪奥皮具官方网站</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="/admin/goods/albumList/"><strong>相册管理</strong></a>
+                </li>
+            </ol>
+        </div>
+        <div class="toolbar">
+            {# 创建相册按钮 #}
+            <div style="margin: 20px 0 10px 0;" class="pull-left">
+                <button type="button" class="btn btn-warning " id="addBtn" data-toggle="modal" data-target="#myModal">创建相册</button>
+                <button type="button" id="delBtnOther" style="display: none" data-toggle="modal" data-target="#delConfirm"  >删除</button>
+            </div>
+            {# 右侧过滤搜索栏 #}
+            <div class="filter-bar pull-right" style="margin: 20px 0 10px 0">
+                <form action="" class="form-inline">
+                    <input type="text" class="form-control" id="searchInput" placeholder="请输入相册名称" style="width: 250px;">
+                    <button type="button" class="btn btn-xs btn-primary" id="searchBtn" >搜索</button>
+                </form>
+            </div>
+            <div class="layui-clear"></div>
+        </div>
+        {# 创建相册模态框 #}
+        <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated bounceInRight">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h6 class="modal-title" style="font-size: 20px;">相册添加</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>相册名称</label>
+                            <input type="text" placeholder="请输入相册名称" id="album_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>排序</label>
+                            <input type="number" min="1" id="sort" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" id="closeBtn"  data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary"  id="addAlbumBtn">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# 删除相册确认模态框 #}
+        <div class="modal inmodal" id="delConfirm" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated bounceInRight">
+                    <div class="modal-header" style="border-bottom:none ">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h6 class="modal-title" style="font-size: 20px;">确定要删除该相册吗？</h6>
+                    </div>
+                    <div class="modal-footer" style="border-top: none;">
+                        <button type="button" class="btn btn-white"   data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="delAlbumBtn">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# 相册列表 #}
+        <div class="albumlist layui-row"  >
+            {% for album in album_list %}
+                <div class="layui-col-xs2 album-item " onclick="jump({{ album.album_id }})" >
+                    <div class="cover">
+                        <img src="{{ album.album_cover }}">
+                    </div>
+                    <p class="album_name" >{{ album.album_name }}</p>
+                    <p class="album_num">共{{ album.album_count }}张</p>
+                    <div class="btn-group">
+                        <button type="button" id="editBtn" onclick="editAlbum({{ album.album_id }})" class="layui-btn layui-btn-xs">编辑</button>
+                        <button type="button" id="delBtn" data-toggle="modal" data-target="#delConfirm" onclick="delAlbum({{ album.album_id }})" class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {# 分页栏 #}
+        <div id="pagination"></div>
+
+
+    </div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+    var curr=1;  //当前页码
+    var limit; //每页的数据量
+    var keywords=""; //关键字
+    var count ={{ count }}; //分页数据总数
+    var ifedit =false; //是否处于编辑状态
+    var editAlbumId =null; //待编辑的相册的id
+    var delAlbumId =null; //待删除的相册的id
+    init();
+    function init(){
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'pagination'
+                ,count: count //数据总数，从服务端得到
+                ,jump: function(obj, first){
+                    //首次不执行
+                    if(!first){
+                        //obj包含了当前分页的所有参数，比如：
+                        console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                        curr =obj.curr;
+                        getAlbumData(curr); //获取当前页的相册数据
+                    }
+                }
+            });
+        });
+        //设置弹框参数
+        toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "progressBar": false,
+          "preventDuplicates": true,
+          "positionClass": "toast-top-right",
+          "onclick": null,
+          "showDuration": "400",
+          "hideDuration": "1000",
+          "timeOut": "2000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+    }
+
+    // 从后台获取点击页对应的相册数据
+    function getAlbumData(curr,keywords=""){
+        $.ajax({
+            type: "post",
+            url: "/admin/goods/albumList/",
+            data: {
+                page:curr,
+                keywords:keywords
+            },
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0){
+                    //清空相册容器
+                    $(".albumlist").empty();
+                    creatAlbumItem(data.album_list)
+                }else {
+
+                }
+            }
+        });
+    }
+
+    //动态创建相册数据
+    function creatAlbumItem(list){
+        for (var i = 0; i < list.length; i++) {
+            var item =list[i]
+            var item_temp =`
+                <div class="layui-col-xs2 album-item " onclick="jump(${item.album_id})" >
+                    <div class="cover">
+                        <img src="${item.album_cover}">
+                    </div>
+                    <p class="album_name" >${item.album_name}</p>
+                    <p class="album_num">共${item.album_count}张</p>
+                    <div class="btn-group">
+                        <button type="button" onclick="editAlbum(${item.album_id})" class="layui-btn layui-btn-xs">编辑</button>
+                        <button type="button"  data-toggle="modal" data-target="#delConfirm" onclick="delAlbum(${item.album_id})" class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+                    </div>
+                </div>
+            `
+
+            $('.albumlist').append(item_temp)
+        }
+    }
+
+    // 鼠标移上移开相册时 显示或者关闭编辑按钮
+    $(".albumlist").on('mouseover','.album-item',function () {
+        $(this).find(".btn-group").css("display","block");
+        $(this).find(".album_num").css("display","none");
+    });
+    $(".albumlist").on('mouseout','.album-item',function () {
+        $(this).find(".btn-group").css("display","none");
+        $(this).find(".album_num").css("display","block");
+    });
+
+    // 触发相册搜索
+    $("#searchBtn").click(function () {
+        if ($("#searchInput").val().trim() === ""){
+            toastr.error('相册名称不能为空');
+            return
+        }
+        keywords =$("#searchInput").val();
+        $.ajax({
+            type: "post",
+            url: "/admin/goods/albumList/",
+            data: {
+                page:curr,
+                keywords:keywords
+            },
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0){
+                    //清空相册容器
+                    $(".albumlist").empty();
+                    //动态创建相册数据
+                    creatAlbumItem(data.album_list);
+                    //重构分页
+                    layui.use('laypage', function(){
+                        var laypage = layui.laypage;
+                        //执行一个laypage实例
+                        laypage.render({
+                            elem: 'pagination' //注意，这里的 test1 是 ID，不用加 # 号
+                            ,count:data.count //数据总数，从服务端得到
+                            ,jump: function(obj, first){
+                                //首次不执行
+                                if(!first){
+                                    //obj包含了当前分页的所有参数，比如：
+                                    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                                    curr =obj.curr;
+                                    getAlbumData(curr,data.keywords); //获取当前页的相册数据
+                                }
+                            }
+                        });
+                    });
+                }else {
+                    toastr.error('搜索存在异常，请重试');
+                }
+            }
+        });
+
+    });
+
+    //创建相册
+    $("#addAlbumBtn").click(function () {
+        var album_name =$("#album_name").val();
+        var sort =$("#sort").val();
+        if (album_name === "" || sort === ""){
+            toastr.error('请输入正确的相册信息');
+            return
+        }
+        if (ifedit){  //此时模态框为相册编辑状态
+            editAlbumHandle(album_name,sort);
+            return
+        }
+        // 此时为相册添加状态
+        $.ajax({
+            type: "post",
+            url: "/admin/goods/addAlbum/",
+            data: {
+                album_name:album_name,
+                sort:sort
+            },
+            success: function (data) {
+                console.log(data)
+                if (data.code == 0){
+                    toastr.success(data.msg);
+                    setTimeout( function(){
+                        location.href ="/admin/goods/albumList/";
+                    }, 3000 );//延迟5000毫米
+                }else {
+                    toastr.error(data.msg);
+                }
+            }
+        });
+
+    });
+
+    //编辑相册
+    function editAlbum(album_id) {
+        ifedit =true;
+        $("#myModal").find(".modal-title").text("相册编辑");
+        $("#addBtn").click();
+        editAlbumId =album_id;
+        stopPropagation(); //阻止父元素跳转事件冒泡
+    }
+
+    //编辑相册处理
+    function editAlbumHandle(album_name,sort) {
+        $.ajax({
+            type: "post",
+            url: "/admin/goods/editAlbum/",
+            data: {
+                album_id:editAlbumId,
+                album_name:album_name,
+                sort:sort
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.code === 0){
+                    toastr.success(data.msg);
+                    setTimeout(function(){
+                        location.href ="/admin/goods/albumList/";
+                    }, 3000 );//延迟5000毫米
+                }else {
+                    toastr.error(data.msg);
+                }
+            }
+        });
+
+    }
+
+    //模态框关闭时回到创建相册状态
+    $("#closeBtn").click(function () {
+        ifedit = false;
+        $("#myModal").find(".modal-title").text("相册添加");
+    });
+
+    //删除相册
+    function delAlbum(album_id) {
+        $("#delBtnOther").click();
+        delAlbumId =album_id;
+        stopPropagation(); //阻止父元素跳转事件冒泡
+    }
+
+    //删除相册处理
+    $("#delAlbumBtn").click(function () {
+        $.ajax({
+            type: "post",
+            url: "/admin/goods/delAlbum/",
+            data: {
+                album_id:delAlbumId,
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.code === 0){
+                    toastr.success(data.msg);
+                    setTimeout(function(){
+                        location.href ="/admin/goods/albumList/";
+                    }, 3000 );//延迟5000毫米
+                }else {
+                    toastr.error(data.msg);
+                }
+            }
+        });
+
+    });
+
+    //阻止事件冒泡
+    function stopPropagation(e) {
+        e = e || window.event;
+        if(e.stopPropagation) { //W3C阻止冒泡方法
+            e.stopPropagation();
+        } else {
+            e.cancelBubble = true; //IE阻止冒泡方法
+        }
+    }
+
+    //点击相册跳转
+    function jump(album_id) {
+        location.href ="/admin/goods/albumPictureList/?album_id="+album_id
+    }
+</script>
+{% endblock %}

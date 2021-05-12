@@ -20,5 +20,13 @@ urlpatterns = [
     ,path('goods/goodsRecommend/',views.goodsRecommend) # 商品模块--商品推荐模块
     ,path('goods/goodsRecommend/list/',views.goodsRecomList) # 商品模块--商品推荐列表
     ,path('goods/goodsSpecList/',views.goodsSpecList) # 商品模块--商品规格
+    ,path('goods/albumList/',views.albumList) # 商品模块--相册管理
+    ,path('goods/addAlbum/',views.addAlbum) # --添加相册
+    ,path('goods/editAlbum/',views.editAlbum) # --编辑相册
+    ,path('goods/delAlbum/',views.delAlbum) # --删除相册
+    ,path('goods/albumPictureList/',views.albumPictureList) # --相册图片管理
+    ,path('goods/editAlbumPicture/',views.editAlbumPicture) # --相册图片编辑
+    ,path('goods/delAlbumPicture/',views.delAlbumPicture) # --相册图片删除
+
 
 ]

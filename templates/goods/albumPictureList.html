@@ -1,0 +1,461 @@
+{% extends 'common/base.html' %}
+
+{% block title %}芭菲丽后台-商品{% endblock %}
+
+
+{% block css %}
+<style>
+    .main{
+        padding: 0;
+        margin-bottom: 50px;
+    }
+    .layui-btn+.layui-btn{margin-left: 0;}
+    .album_info{padding: 15px 0;}
+    .album_info .album_cover{
+        width: 80px;
+        height: 80px;
+        border: 1px solid #E5E5E5;
+        overflow: hidden;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .album_info .album_cover img{
+        max-width: 80px;
+        max-height: 80px;
+    }
+    .album_info .album_name{
+        color: #1AB394;
+        margin-left: 10px;
+        font-weight: bold;
+        font-size: 17px;
+    }
+    .btnGroup{padding-bottom: 10px;}
+    .picture-list{
+    }
+    .picture-list .picture-item:hover{
+        background-color: #f6f6f6;
+    }
+    .picture-list .picture-item{
+        border: 1px solid #E5E5E5;
+        padding: 15px 10px 20px 10px;
+        height: 280px;
+    }
+    .picture-list .picture-item img{
+        width: 80%;
+    }
+    .picture-list .picture-item .cover{
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid #FAFAFA;
+        overflow: hidden;
+        height: 180px;
+        position: relative;
+        margin-bottom: 0;
+    }
+    .picture-list .picture-item .cover .input{
+        left: 0;
+        top: 0;
+        position: absolute;
+    }
+    .picture-list .picture-item .picture_name{
+        color: #555;
+        font-weight: bold;
+        margin-top: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .picture-list .picture-item .upload_time{
+        margin-bottom: 5px;
+        margin-top: -15px;
+        font-size: 12px;
+        color: #999;
+    }
+    .picture-list .picture-item .picture_size{
+        color: #999;
+        font-size: 12px;
+    }
+    .layui-form-checked[lay-skin=primary] i {
+        border-color: #1AB394!important;
+        background-color: #1AB394;
+        color: #fff;
+    }
+    .picture-list .picture-item .btn-group {
+        display: none;
+    }
+    /*#pagination{
+        position: absolute;
+        bottom: 30px;
+    }*/
+</style>
+{% endblock %}
+
+
+{% block main %}
+    <div class="wrapper wrapper-content main">
+        {#面包屑#}
+        <div class="row" style="padding:10px 0 0 15px">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="/admin/">迪奥皮具官方网站</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/admin/goods/albumList/">相册管理</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="/admin/goods/albumPictureList/"><strong>相册图片管理</strong></a>
+                </li>
+            </ol>
+        </div>
+        {# 头部相册信息 #}
+        <div class="album_info">
+            <div class="album_cover pull-left" >
+                <img src="{{ album_cover }}" alt="">
+            </div>
+            <p class="album_name pull-left">{{ album_name }}</p>
+            <div class="layui-clear"></div>
+        </div>
+        {# 按钮组 #}
+        <div class="btnGroup">
+            <button type="button" id="uploadMoreImg" class="btn btn-warning btn-xs">上传图片</button>
+            <button type="button" id="checkedAllBtn" onclick="selectAllFunc()" class="btn btn-primary btn-xs">全选</button>
+            <button type="button" id="cancelBtn" onclick="cancelAllFunc()" class="btn btn-primary btn-xs">取消</button>
+            <button type="button" id="delCheckedBtn" onclick="delCheckedPic()" class="btn btn-danger btn-xs">删除</button>
+            <button type="button" class="btn btn-primary btn-xs" id="editAlertBtn" style="display: none" data-toggle="modal" data-target="#myModal" >弹出编辑模态框</button>
+            <button type="button" class="btn btn-primary btn-xs" id="delAlertBtn" style="display: none" data-toggle="modal" data-target="#delConfirm" >弹出删除模态框</button>
+        </div>
+        {# 图片编辑模态框 #}
+        <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated bounceInRight">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h6 class="modal-title" style="font-size: 20px;">图片编辑</h6>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>相册名称</label>
+                            <input type="text" placeholder="请输入图片名称" id="pic_name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" id="closeBtn"  data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary"  onclick="editAlbumHandle()" id="editModalBtn">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# 删除相册确认模态框 #}
+        <div class="modal inmodal" id="delConfirm" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated bounceInRight">
+                    <div class="modal-header" style="border-bottom:none ">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h6 class="modal-title" style="font-size: 20px;">确定删除吗？</h6>
+                    </div>
+                    <div class="modal-footer" style="border-top: none;">
+                        <button type="button" class="btn btn-white"   data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="delAlbumHandle()" id="delAlbumBtn">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# 图片列表 #}
+        <div class="picture-list" >
+            {% for pic in pic_list %}
+                <div class="layui-col-xs2 picture-item">
+                    <div class="cover form-group">
+                        <img src="{{ pic.pic_cover }}">
+                        <div class="layui-form input">
+                            <input type="checkbox" lay-skin="primary" class="checkbox" lay-filter="checkInput" value="{{ pic.pic_id }}" >
+                        </div>
+                    </div>
+                    <p class="picture_name" >{{ pic.pic_name }}</p>
+                    <p class="upload_time">上传时间：{{ pic.upload_time }}</p>
+                    <p class="picture_size">原图尺寸：{{ pic.pic_size }}</p>
+                    <div class="btn-group pull-right">
+                        <button type="button" id="editBtn" onclick="editAlbum({{ pic.pic_id }})"  class="layui-btn layui-btn-xs">编辑</button>
+                        <button type="button" id="delBtn" onclick="delAlbum({{ pic.pic_id }})" data-toggle="modal" data-target="#delConfirm"  class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+                    </div>
+                    <div class="layui-clear"></div>
+                </div>
+            {% endfor %}
+            <div class="layui-clear"></div>
+        </div>
+        {# 分页栏 #}
+        <div id="pagination"></div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+    var curr=1;  //当前页码
+    var count ={{ count }}; //分页数据总数
+    var albumId ={{ album_id }};
+    var editAlbumId =null; //待编辑的图片的id
+    var delAlbumId =null; //待删除的图片的id
+    var checkedPicIdList =[]; //已选的图片id列表
+    var form;
+    init();
+    function init() {
+        layui.use(['form','laypage','upload','element'], function(){
+            form = layui.form;
+            var upload = layui.upload;
+            var element = layui.element;
+            // 侦听layui checkbox
+            form.on('checkbox(checkInput)', function (data) {
+　　            //console.log( data );　　//打印当前选择的信息
+                //console.log(data.elem.checked)
+                //console.log(data.value)
+                checkboxHandle(data.elem.checked,data.value)
+            });
+            var laypage = layui.laypage;
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'pagination'
+                ,count: {{ count }} //数据总数，从服务端得到
+                ,jump: function(obj, first){
+                    //首次不执行
+                    if(!first){
+                        //obj包含了当前分页的所有参数，比如：
+                        console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                        curr =obj.curr;
+                        getAlbumData(curr);  //请求指定页的相册图片数据
+                    }
+                }
+            });
+            //多图片上传
+            upload.render({
+                elem: '#uploadMoreImg'
+                ,url: '/admin/upload/' //改成您自己的上传接口
+                ,accept:'images'
+                ,multiple: true
+                ,data:{
+                    "album_id":{{ album_id }}
+                }
+                ,before: function(obj){
+                    //预读本地文件示例，不支持ie8
+                    /*obj.preview(function(index, file, result){
+                        $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+                    });*/
+                }
+                ,allDone: function(obj){ //当文件全部被提交后，才触发
+                    //console.log(obj.total); //得到总文件数
+                    //console.log(obj.successful); //请求成功的文件数
+                    //console.log(obj.aborted); //请求失败的文件数
+                    toastr.success("已成功上传"+obj.successful+"张图片");
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000 );
+                }
+                ,done: function(res){
+                    //上传完毕
+                    console.log(res)
+                }
+            });
+        });
+        //设置弹框参数
+        toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "progressBar": false,
+          "preventDuplicates": true,
+          "positionClass": "toast-top-right",
+          "onclick": null,
+          "showDuration": "400",
+          "hideDuration": "1000",
+          "timeOut": "2000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+    }
+
+    // 从后台获取点击页对应的相册数据
+    function getAlbumData(curr){
+        $.ajax({
+            type: "post",
+            url: "/admin/goods/albumPictureList/",
+            data: {
+                album_id:albumId,
+                page:curr,
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.code == 0){
+                    //清空相册容器
+                    $(".picture-list").empty();
+                    creatPictureItem(data.pic_list)
+                    checkedPicIdList =[] //换页后清空已选中的 checkbox列表
+                }else {
+
+                }
+            }
+        });
+    }
+
+    //动态创建相册数据
+    function creatPictureItem(list){
+        for (var i = 0; i < list.length; i++) {
+            var item =list[i]
+            var item_temp =`
+                <div class="layui-col-xs2 picture-item">
+                    <div class="cover form-group">
+                        <img src="${item.pic_cover}">
+                        <div class="layui-form input">
+                            <input type="checkbox" lay-skin="primary" class="checkbox"  lay-filter="checkInput" value="${item.pic_id}">
+                        </div>
+                    </div>
+                    <p class="picture_name" >${item.pic_name}</p>
+                    <p class="upload_time">上传时间：${item.upload_time}</p>
+                    <p class="picture_size">原图尺寸：${item.pic_size}</p>
+                    <div class="btn-group pull-right">
+                        <button type="button" id="editBtn" onclick="editAlbum(${item.pic_id})" class="layui-btn layui-btn-xs">编辑</button>
+                        <button type="button" id="delBtn" onclick="delAlbum(${item.pic_id})" data-toggle="modal" data-target="#delConfirm"  class="layui-btn layui-btn-xs layui-btn-primary">删除</button>
+                    </div>
+                    <div class="layui-clear"></div>
+                </div>
+            `;
+
+            $('.picture-list').append(item_temp)
+        }
+        $('.picture-list').append(`<div class="layui-clear"></div>`);
+        form.render();
+    }
+
+    // 鼠标移上移开相册时 显示或者关闭编辑按钮
+    $(".picture-list").on('mouseover','.picture-item',function () {
+        $(this).find(".btn-group").css("display","block");
+        $(this).find(".upload_time").css("display","none");
+        $(this).find(".picture_size").css("display","none");
+    });
+    $(".picture-list").on('mouseout','.picture-item',function () {
+        $(this).find(".btn-group").css("display","none");
+        $(this).find(".upload_time").css("display","block");
+        $(this).find(".picture_size").css("display","block");
+    });
+
+    //编辑图片
+    function editAlbum(pic_id) {
+        editAlbumId =pic_id;
+        // 弹出编辑框
+        $("#editAlertBtn").click();
+    }
+
+    //编辑图片处理
+    function editAlbumHandle() {
+        var pic_name =$("#pic_name").val();
+        if (pic_name === ""){
+            toastr.error("请输入正确的图片名称");
+            return
+        }
+        // 发起编辑该图片的请求
+        $.ajax({
+            type: "post",
+            url: "/admin/goods/editAlbumPicture/",
+            data: {
+                pic_id:editAlbumId,
+                pic_name:pic_name,
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.code === 0){
+                    toastr.success(data.msg);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000 );//延迟5000毫米
+                }else {
+                    toastr.error(data.msg);
+                }
+            }
+        });
+    }
+
+    //删除图片
+    function delAlbum(pic_id) {
+        delAlbumId =pic_id;
+    }
+
+    //删除图片处理
+    function delAlbumHandle() {
+        // 发起删除该图片的请求
+        // 删除单张照片的情况
+        var sendData; //发送给后端的数据
+        if(checkedPicIdList.length === 0){
+            sendData ={
+                pic_id:delAlbumId
+            }
+        }
+        // 删除多张照片的情况
+        else{
+            sendData ={
+                pic_id_list:checkedPicIdList
+            }
+        }
+        $.ajax({
+            type: "post",
+            url: "/admin/goods/delAlbumPicture/",
+            traditional:true,
+            data: sendData,
+            success: function (data) {
+                console.log(data);
+                if (data.code === 0){
+                    toastr.success(data.msg);
+                    setTimeout(function(){
+                        location.reload();
+                    }, 2000 );
+                }else {
+                    toastr.error(data.msg);
+                }
+            }
+        });
+    }
+
+    //侦听每张图片的checkbox
+    function checkboxHandle(ifchecked,pic_id) {
+        console.log(ifchecked,pic_id,'-----')
+        if (ifchecked){
+            checkedPicIdList.push(pic_id);
+            return
+        }
+        checkedPicIdList.splice(checkedPicIdList.indexOf(pic_id),1)
+    }
+
+    //全选按钮事件
+    function selectAllFunc() {
+        //先清空checkedboxlist
+        checkedPicIdList.splice(0,checkedPicIdList.length);
+        //选中每个按钮
+        $('.checkbox').each(function() {
+			$(this).prop("checked", true);
+            checkedPicIdList.push($(this).val())
+		});
+        form.render();
+    }
+
+    //取消全选按钮事件
+    function cancelAllFunc() {
+        //得到所有的checkbox
+        $('.checkbox').each(function() {
+			$(this).prop("checked", false);
+		});
+        //清空checkedboxlist
+        checkedPicIdList.splice(0,checkedPicIdList.length);
+        form.render();
+    }
+
+    //删除选中的图片
+    function delCheckedPic() {
+        if (checkedPicIdList.length === 0){
+            toastr.warning("请先选择要删除的图片")
+            return
+        }
+        console.log(checkedPicIdList);
+        // 弹出删除确认框
+        $("#delAlertBtn").click();
+    }
+</script>
+{% endblock %}
